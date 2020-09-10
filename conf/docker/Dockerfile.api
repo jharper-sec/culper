@@ -1,4 +1,4 @@
-FROM golang:1.12
+FROM golang:1.14
 
 # install Dep
 RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
@@ -20,4 +20,6 @@ RUN dep ensure -vendor-only
 RUN curl https://raw.githubusercontent.com/codecov/codecov-bash/master/codecov > /usr/local/bin/codecov; \
     chmod 755 /usr/local/bin/codecov
 
+COPY ./contrast-go /usr/local/go/bin/contrast-go
+COPY ./contrast_security.yaml ./api/contrast_security.yaml
 CMD ./bin/run.sh

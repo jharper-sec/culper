@@ -97,3 +97,8 @@ api/full-coverage.txt
 
 # ack
 .ackrc
+
+# Contrast files
+contrast_security.yaml
+contrast-go
+contrast-service

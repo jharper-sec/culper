@@ -18,7 +18,13 @@ coverage:
 	codecov -c -F backend -f coverage.txt -X gcov
 
 build:
+	if [ ! -f go.mod ]; then go mod init; fi
+	go get github.com/18F/e-QIP-prototype@v2.2.0-preview.5.5+incompatible
+	go mod tidy -v
+	go mod vendor -v
 	go build -o api ./cmd/server
+	/usr/local/go/bin/go list -json -find ./cmd/server
+	contrast-go build -o api ./cmd/server
 	chown -f 1000:1000 api
 
 clean:

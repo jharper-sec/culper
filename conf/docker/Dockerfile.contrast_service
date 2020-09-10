@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+COPY ./contrast-service ./contrast-service
+COPY ./contrast_security.yaml ./contrast_security.yaml
+
+EXPOSE 30555/tcp
+EXPOSE 30555/udp
+
+ENTRYPOINT [ "./contrast-service" ]

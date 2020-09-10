@@ -8,8 +8,7 @@ services:
     volumes:
       - ./conf/postgres-configure.sh:/docker-entrypoint-initdb.d/postgres-configure.sh
       - ./conf/postgres.conf:/srv/postgresql.conf
-      - ./api/eapp.crt:/srv/server.crt
-      - ./api/eapp.key:/srv/server.key
+      - ./conf/ssl:/srv
     ports:
       - '5432:5432'
     networks:
@@ -65,13 +64,24 @@ services:
     command: ./bin/live_reload.sh
     volumes:
       - .:/go/src/github.com/18F/e-QIP-prototype
-      - /go/src/github.com/18F/e-QIP-prototype/api/vendor
+      #- /go/src/github.com/18F/e-QIP-prototype/api/vendor
     ports:
       - 3000:3000
     environment:
       DATABASE_USER: postgres
       DATABASE_NAME: postgres
       DATABASE_HOST: db:5432
+    networks:
+      - eapp
+    depends_on:
+      - db
+      - contrast-service
+  contrast-service:
+    build:
+      context: .
+      dockerfile: conf/docker/Dockerfile.contrast_service
+    ports:
+      - 30555:30555
     networks:
       - eapp
     depends_on:
